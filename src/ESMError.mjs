@@ -3,19 +3,19 @@
 export default class ESMError extends Error {
 
     
-    setStatus(status) {
-        this.status = status;
+    status(status) {
+        this._status = status;
         return this;
     }
 
 
-    setCode(code) {
-        this.code = code;
+    code(code) {
+        this._code = code;
         return this;
     }
 
 
-    setData(data) {
-        this.data = data;
+    data(data) {
+        this._data = data;
     }
 }

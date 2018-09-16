@@ -1,9 +1,6 @@
-'use strict';
-
-
 import Service from './Service';
-import HTTP2Server from '../es-modules/distributed-systems/http2-server/x/src/HTTP2Server.mjs'
-import HTTP2Client from '../es-modules/distributed-systems/http2-client/x/src/HTTP2Client.mjs'
+import HTTP2Server from '../es-modules/distributed-systems/http2-server/x/src/HTTP2Server.mjs';
+import HTTP2Client from '../es-modules/distributed-systems/http2-client/x/src/HTTP2Client.mjs';
 import fs from 'fs';
 import path from 'path';
 
@@ -18,6 +15,7 @@ export default class ESMServer {
         this.startTime = Date.now();
 
         this.port = 4466;
+        this.host = 'localhost';
 
         // many components relay on the directory of this
         // project. get it from the meta object.
@@ -116,6 +114,7 @@ export default class ESMServer {
         this.server = new HTTP2Server({
             key: this.key,
             certificate: this.certificate,
+            host: this.host,
         });
 
 
@@ -147,7 +146,7 @@ export default class ESMServer {
                 
                 await this.probeServer();
 
-                console.log(`shutting the server down since there is already a server running`);
+                console.log(`server already running`);
                 process.exit();
             } else {
 

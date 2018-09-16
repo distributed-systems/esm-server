@@ -2,4 +2,11 @@ name: esm-server
 organization: distributed-systems
 version: 1.0.0
 commands:
-    test: node --no-warnings --experimental-modules ./es-modules/distributed-systems/section-tests/bin/section.mjs ./test/*.mjs
+    test: node --no-warnings --experimental-modules ./es-modules/distributed-systems/section-tests/x/bin/section.mjs ./test/*.mjs
+npm-convert:
+    source:
+        - ./src
+    destination: ./npm
+    mapping:
+        distributed-systems/http2-server: @distributed-systems/http2-server
+        distributed-systems/http2-client: @distributed-systems/http2-client

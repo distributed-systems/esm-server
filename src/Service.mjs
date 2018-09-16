@@ -1,5 +1,3 @@
-
-
 import fs from 'fs';
 import path from 'path';
 
@@ -173,15 +171,23 @@ export default class Service {
                                 // send the error to the client if the response wasn't sent yet
                                 if (!request.response().isSent()) {
                                     if (err.status) {
-                                        request.response().status(err.status).send({
+                                        request.response().status(err._status).send({
                                             message: err.message,
-                                            status: err.status,
-                                            code: err.code,
-                                            data: err.data,
-                                        });
+                                            status: err._status,
+                                            code: err._code,
+                                            data: err._data,
+                                            stack: err.stack.split('\n').map(line => line.trim()),
+                                        }).catch(console.error);
                                     } else {
-                                        request.response().status(500).send(err);
+                                        request.response().status(500).send({
+                                            message: err.message,
+                                            status: 500,
+                                            code: 'server-error',
+                                            stack: err.stack.split('\n').map(line => line.trim()),
+                                        }).catch(console.error);
                                     }
+                                } else {
+                                    console.log(`Unadnled exception:`, err);
                                 }
                             });
                         } else {

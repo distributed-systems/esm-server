@@ -18,7 +18,7 @@ export default class ModuleYMLController extends ModuleController {
         await this.validateModuleHeader(request);
 
         // get the file 
-        const yml = this.moduleManager.get(request.getHeader('module'));
+        const yml = this.modules.get(request.getHeader('module'));
 
 
         // check what the users wants

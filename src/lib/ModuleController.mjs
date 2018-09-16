@@ -54,15 +54,17 @@ export default class ModuleController extends Controller {
             }
 
 
+
             // try to load the yml file
             const yml = new ModuleYML(modulePath);
             const exists = await yml.exists();
 
             if (!exists) {
-                throw new ESMError(`The module '${modulePath}' is not a module. Missing the module.yml file!`)
+                throw new ESMError(`The path '${modulePath}' is not an esm module. No module.yml file found!`)
                     .status(404)
                     .code('module-not-found');
             }
+
 
             if (!this.modules.has(yml.getProjectPath())) {
                 await yml.load();

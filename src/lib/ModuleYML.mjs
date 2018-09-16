@@ -36,7 +36,7 @@ export default class ModuleYML {
      * @return     {string}  The project path.
      */
     getProjectPath() {
-        return thios.projectDir;
+        return this.projectDir;
     }
 
 
@@ -138,7 +138,7 @@ export default class ModuleYML {
         try {
             const value = this.getValue(key);
             return value !== undefined;
-        } catch (err) {
+        } catch (err) { console.log(err);
             return false;
         }
     }
@@ -157,8 +157,9 @@ export default class ModuleYML {
         const pathParts = this.getPathParts(key);
         let currentData = this.data;
         let lastKey = '[root]';
-        
-        for (const index = 0; index < pathParts.length; index++) {
+
+
+        for (let index = 0; index < pathParts.length; index++) {
             const currentKey = pathParts[index];
 
             if (Array.isArray(currentData)) {
@@ -377,9 +378,7 @@ export default class ModuleYML {
         if (this.isLoaded) throw new Error(`Cannot load '${this.esmFilePath}', the file was already loaded!`);
         this.isBusy = true;
 
-
         let blob;
-
         try {
             blob = await readFile(this.esmFilePath);
         } catch(err) {
@@ -388,9 +387,10 @@ export default class ModuleYML {
 
 
         try {
-            this.data = parse(blob);
+            this.data = parse(blob.toString());
         } catch(err) {
-            throw new Error(`Failed to parse '${this.esmFilePath}': ${err.message}`);
+            err.message = `Failed to parse '${this.esmFilePath}': ${err.message}`;
+            throw err;
         }
 
         this.isBusy = false;

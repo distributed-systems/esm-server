@@ -11,7 +11,7 @@ import { spawn } from 'child_process';
 * is already a server running, if yes, it will terminate itself
 */
 
-class ESMResolverServerStarter {
+class ESMServerStarter {
 
 
     constructor() {
@@ -30,13 +30,15 @@ class ESMResolverServerStarter {
                 this.serverPath,
             ], {
                 detached: true,
-                stdio: [ 'ignore', 'ignore', 'ignore' ],
+                stdio: ['ignore', 'ignore', 'ignore', 'ipc']
             });
 
             //child.stdout.on('data', (data) => console.log(data.toString()));
             //child.stderr.on('data', (data) => console.log(data.toString()));
-
-            child.unref();
+            child.on('message', (data) => {
+                child.unref();
+                resolve();
+            });
         });
     }
 }
@@ -46,10 +48,12 @@ class ESMResolverServerStarter {
 
 
 (async () => {
-    const esmServerStarter = new ESMResolverServerStarter();
+    const esmServerStarter = new ESMServerStarter();
 
     // ensure that an esm server is running
     await esmServerStarter.spawnServer();
+
+    process.exit();
 })().catch((err) => {
     console.error(err.message);
     process.exit(1);

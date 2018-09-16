@@ -121,7 +121,9 @@ class ESMResolverServerStarter {
         }
 
         const server = new ServerConstructor();
-        return await server.load();
+        await server.load();
+
+        process.send('loaded');
     }
 }
 
