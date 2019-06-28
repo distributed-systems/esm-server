@@ -29,6 +29,16 @@ export default class ModuleYML {
 
 
 
+    /**
+     * returns the data
+     *
+     * @return     {object}  The data.
+     */
+    getData() {
+        return this.data;
+    }
+
+
 
     /**
      * returns the normalized project path

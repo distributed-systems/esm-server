@@ -1,4 +1,4 @@
-import Service from './Service';
+import Service from './Service.mjs';
 import HTTP2Server from '../es-modules/distributed-systems/http2-server/x/src/HTTP2Server.mjs';
 import HTTP2Client from '../es-modules/distributed-systems/http2-client/x/src/HTTP2Client.mjs';
 import fs from 'fs';
@@ -14,7 +14,7 @@ export default class ESMServer {
     constructor() {
         this.startTime = Date.now();
 
-        this.port = 4466;
+        this.port = 5654;
         this.host = 'localhost';
 
         // many components relay on the directory of this
